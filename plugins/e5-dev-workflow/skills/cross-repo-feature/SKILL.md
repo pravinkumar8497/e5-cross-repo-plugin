@@ -16,13 +16,38 @@ Specs and status for every feature/fix live in a separate `e5-feature-specs`
 repo, cloned alongside the service repos, one directory per feature:
 `e5-feature-specs/<YYYY-MM-DD>-<feature-slug>/design.md` and `.../status.md`.
 
+## Repo knowledge notes
+
+Each known service has a running notes file at
+`knowledge/<repo-name>.md`, next to this skill in this plugin. It exists so
+this skill doesn't re-explore the same code from scratch every time — it
+records things that took real investigation to find (which file actually
+owns a piece of logic, non-obvious schema/join facts, gotchas, format
+assumptions, transitional shortcuts and their ceiling) rather than things a
+directory listing would show. Not a changelog and not a design doc — keep
+entries short, dated, and file/symbol-specific.
+
+**Read it first:** before exploring a repo in Phase 1 (or before touching a
+repo in Phase 2), read `knowledge/<repo-name>.md` if it exists. Treat it as
+a fast-start hint, not ground truth — if it looks stale or contradicts what
+you read in the actual code, trust the code and fix the note.
+
+**Update it last:** as the final action of Phase 3 for this feature (after
+`status.md` is marked complete), append or update an entry in
+`knowledge/<repo-name>.md` for every repo that was actually touched or
+investigated, capturing anything non-obvious this feature surfaced (new
+file/symbol locations, schema facts, format assumptions, transitional
+shortcuts introduced and their removal ceiling). Skip repos that were only
+named in the problem statement but turned out not to need changes — don't
+pad the notes with "nothing here."
+
 ## Phase 1 — Plan + Design (shared, run once per feature/fix)
 
 1. Get the problem statement from the user. Ask clarifying questions one at
    a time (same style as `superpowers:brainstorming`) until scope is clear.
-2. Cross-reference `services.json` and each candidate repo's own CLAUDE.md
-   to propose which repos are affected. Confirm the list with the user
-   before writing anything.
+2. Cross-reference `services.json`, each candidate repo's own CLAUDE.md, and
+   its `knowledge/<repo-name>.md` (if present) to propose which repos are
+   affected. Confirm the list with the user before writing anything.
 3. Write `e5-feature-specs/<date>-<slug>/design.md` with:
    - a shared section: why, cross-repo architecture, any interface
      contracts repos must agree on (e.g. a message schema one repo produces
@@ -61,3 +86,7 @@ Run one repo at a time, in a session/agent scoped to just that repo.
    need a follow-up change and send just those back through Phase 2 — don't
    restart the whole feature.
 4. Mark `status.md` complete once both checks pass for every affected repo.
+5. **Last step:** update `knowledge/<repo-name>.md` for every repo actually
+   touched or investigated this feature, per "Repo knowledge notes" above.
+   Do this after `status.md` is marked complete, not before — notes should
+   reflect what was actually true of the finished change.
