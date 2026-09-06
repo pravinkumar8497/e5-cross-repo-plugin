@@ -1,0 +1,8 @@
+{
+  "name": "e5-dev-workflow",
+  "version": "0.1.0",
+  "description": "Cross-repo feature/fix harness for e5 services: shared Plan+Design, per-repo Implement/Test/Review, shared Validation",
+  "skills": [
+    "./skills/cross-repo-feature"
+  ]
+}

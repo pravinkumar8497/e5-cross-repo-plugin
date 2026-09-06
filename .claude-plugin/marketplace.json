@@ -1,0 +1,28 @@
+{
+  "name": "e5-dev-workflow",
+  "owner": {
+    "name": "element5"
+  },
+  "plugins": [
+    {
+      "name": "superpowers",
+      "source": "./plugins/superpowers",
+      "description": "Vendored copy of obra/superpowers, pinned for team-wide consistency (TDD, brainstorming, writing-plans, code review)"
+    },
+    {
+      "name": "ponytail",
+      "source": "./plugins/ponytail",
+      "description": "Vendored copy of DietrichGebert/ponytail, pinned for team-wide consistency (YAGNI / minimal-diff discipline)"
+    },
+    {
+      "name": "e5-dev-workflow-extras",
+      "source": "./plugins/e5-dev-workflow-extras",
+      "description": "Cherry-picked third-party skills (currently: grilling)"
+    },
+    {
+      "name": "e5-dev-workflow",
+      "source": "./plugins/e5-dev-workflow",
+      "description": "The cross-repo feature/fix harness skill"
+    }
+  ]
+}

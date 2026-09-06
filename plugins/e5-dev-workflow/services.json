@@ -1,0 +1,8 @@
+{
+  "e5-deployment-mgmt-service": { "purpose": "" },
+  "e5-platform-kb": { "purpose": "" },
+  "e5-platform-ss-credential-monitor": { "purpose": "" },
+  "e5-platform-ss-interface": { "purpose": "" },
+  "e5-rf-fb-worker-core": { "purpose": "" },
+  "e5-workflow-manager-service": { "purpose": "" }
+}
