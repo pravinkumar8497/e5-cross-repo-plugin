@@ -195,3 +195,15 @@ doesn't change anything else in the design.
 - No automated test framework for the skill itself is warranted (it's an
   instruction file, not code) — the "test" is the dry run above plus normal
   skill review.
+
+## Revision — v0.2.0 (2026-09-06)
+
+Prompted by running this harness end-to-end on the credential-release
+app-name feature: Review was only a checkbox folded into the old Phase 2,
+with no defined mechanism. Split into its own mandatory phase (now Phase 3,
+Validation becomes Phase 4), using the bundled `superpowers:requesting-
+code-review` / `receiving-code-review` skills, with a fix → re-review loop
+until clean before a repo can proceed to Validation. See `SKILL.md` for the
+authoritative phase definitions — this doc's original phase list (Plan →
+Design → Implement → Test → Review → Validation) still describes the
+concepts correctly, just with Review now formalized rather than implied.

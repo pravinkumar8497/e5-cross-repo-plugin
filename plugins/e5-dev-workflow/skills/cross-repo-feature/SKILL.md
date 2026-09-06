@@ -1,6 +1,6 @@
 ---
 name: cross-repo-feature
-description: Use for any feature or fix that touches one or more e5 service repos. Runs Plan+Design once (shared across affected repos), then Implement/Test/Review independently per repo, then a shared Validation pass. Use when the user describes a problem statement that needs to be turned into work across e5 services, or says "cross-repo feature", "new feature/fix across services", or names multiple e5-* repos.
+description: Use for any feature or fix that touches one or more e5 service repos. Runs Plan+Design once (shared across affected repos), then Implement+Test, then Review, independently per repo, then a shared Validation pass. Use when the user describes a problem statement that needs to be turned into work across e5 services, or says "cross-repo feature", "new feature/fix across services", or names multiple e5-* repos.
 ---
 
 # Cross-Repo Feature Harness
@@ -59,21 +59,47 @@ pad the notes with "nothing here."
 5. Do not start any repo's Implement/Test/Review until this step is done —
    if asked to jump ahead, point to the missing `design.md` and stop.
 
-## Phase 2 — Implement → Test → Review (independent, per repo)
+## Phase 2 — Implement + Test (independent, per repo)
 
 Run one repo at a time, in a session/agent scoped to just that repo.
 
 1. Brief the session with only: that repo's subsection from `design.md`,
    plus a link to the shared section for cross-repo context. Do not
    re-explain the whole spec.
-2. Follow the repo's own conventions. TDD and code review come from the
-   bundled `superpowers` skills; minimal-diff discipline comes from the
-   bundled `ponytail` skill — both are already active in this marketplace,
-   don't re-implement their behavior here.
-3. When the repo finishes Implement, Test, and Review, update that repo's
-   row in `status.md` to reflect the phase reached.
+2. Follow the repo's own conventions. TDD comes from the bundled
+   `superpowers:test-driven-development` skill; minimal-diff discipline
+   comes from the bundled `ponytail` skill — both are already active in
+   this marketplace, don't re-implement their behavior here.
+3. When the repo's implementation is done and its tests pass (or, per
+   `status.md` convention, are marked `n/a` with the reason — e.g. this
+   environment can't build/test that repo), update that repo's Implement
+   and Test columns in `status.md`, then move to Phase 3 for that repo.
 
-## Phase 3 — Validation (shared, once all affected repos reach Review)
+## Phase 3 — Review (independent, per repo)
+
+This is a distinct, mandatory phase — not a checkbox folded into Phase 2.
+It exists to catch what the implementer missed before Validation ever
+looks at the code.
+
+1. Dispatch review using the bundled `superpowers:requesting-code-review`
+   skill (its `code-reviewer.md` template, as a `general-purpose` subagent)
+   against that repo's diff for this feature (`BASE_SHA` = the branch point
+   before this feature's commits, `HEAD_SHA` = the repo's current HEAD).
+   Give the reviewer that repo's `design.md` subsection as
+   `{PLAN_OR_REQUIREMENTS}` — it must check the diff against the actual
+   acceptance criteria, not just general code quality.
+2. If the review comes back clean (no Critical/Important findings), mark
+   that repo's Review column `done` in `status.md` and move on.
+3. If it finds Critical or Important issues: apply `superpowers:receiving-
+   code-review` to weigh the feedback (push back on anything wrong, with
+   reasoning, rather than applying it blindly), fix what holds up, then
+   repeat step 1 (re-review) — loop until a review pass comes back clean.
+   Minor/nitpick findings don't block the loop; note them in `status.md`
+   and move on.
+4. Never skip straight to Phase 4 for a repo whose Review column isn't
+   `done`.
+
+## Phase 4 — Validation (shared, once all affected repos reach Review)
 
 1. Acceptance check: for each repo, confirm its subsection's acceptance
    criteria in `design.md` are actually met — read its code, don't just
