@@ -29,3 +29,25 @@ already a platform convention (see `FB_WORKER_POD_PREFIX` in
 recover the app name from a pod name when nothing better is available.
 Treat this as a transitional fallback only (see design doc's "Known
 limitation").
+
+## 2026-09-06 — implemented: app_name resolution + release branch conventions
+
+Fix implemented on branch `defect/credential-release-appname` (commit
+1dd0d39): `credential_assignment_registry.app_name` column added, resolved
+in `DeploymentManagementServiceImpl.addAssignedCredentialToStore` (use
+`PodCredentialAssignment.appName` if present, else
+`StringUtil.deriveAppNameFromPodName(podName)`), exposed via
+`GetDeploymentDetailsByResourceNameResponse.appName`.
+
+**Branch convention:** this repo uses `release/vX.Y.Z` branches, not
+`main`, as the actual current line of development — `main` and even
+mid-range release branches can be stale by dozens of commits. Always check
+`git branch -a | grep release` and diff against the highest version number
+before branching for new work (at time of writing, `release/v1.8.0` was
+current; `release/v1.6.10` was 2 releases behind but happened to have no
+diff in the credential-release code paths — don't assume that's always
+true).
+
+**Local build limitation:** `./gradlew test` works fine in this
+environment (no external dependency auth needed for this repo specifically).
+
