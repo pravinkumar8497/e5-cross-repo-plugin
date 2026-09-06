@@ -139,6 +139,10 @@ Single marketplace repo (`e5-dev-workflow`) containing:
 plugins/
   superpowers/          # vendored copy, pinned version
   ponytail/              # vendored copy, pinned version
+  e5-dev-workflow-extras/
+    .claude-plugin/plugin.json
+    skills/
+      grilling/          # cherry-picked from mattpocock/skills, pinned version
   e5-dev-workflow/
     .claude-plugin/plugin.json
     skills/
@@ -146,21 +150,29 @@ plugins/
     services.json
 ```
 
+Skills are cherry-picked from third-party marketplaces (not the whole
+marketplace) to avoid pulling in skills that overlap or conflict with
+superpowers (e.g. mattpocock-skills' own `tdd`/`code-review`). Each
+cherry-picked skill is copied into a small `e5-dev-workflow-extras` plugin
+owned by this repo, so its version is pinned and updates are deliberate
+(re-copy on demand), not silently pulled from the upstream marketplace.
+
 Team setup (one time per teammate), documented as a copy-paste block in this
 repo's README:
 ```
 /plugin marketplace add <git-url-of-this-repo>
 /plugin install superpowers
 /plugin install ponytail
+/plugin install e5-dev-workflow-extras
 /plugin install e5-dev-workflow
 ```
 
 **Open item to verify during implementation:** whether Claude Code's
 `plugin.json` supports a native "requires plugin X" dependency field. If yes,
-`e5-dev-workflow`'s plugin.json declares `superpowers`/`ponytail` as
-dependencies and install pulls all three automatically. If no, the manual
-3-line install block above is what ships — this doesn't change anything else
-in the design.
+`e5-dev-workflow`'s plugin.json declares `superpowers`/`ponytail`/
+`e5-dev-workflow-extras` as dependencies and install pulls all four
+automatically. If no, the manual install block above is what ships — this
+doesn't change anything else in the design.
 
 ## Error handling / edge cases
 
