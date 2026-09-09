@@ -1,5 +1,5 @@
 {
-  "name": "e5-dev-workflow-extras",
+  "name": "e5-cross-repo-plugin-extras",
   "version": "0.1.0",
   "description": "Cherry-picked third-party skills used by the e5 dev workflow harness (currently: grilling, pinned from mattpocock/skills 1.2.3)",
   "skills": [

@@ -1,4 +1,4 @@
-# e5-dev-workflow
+# e5-cross-repo-plugin
 
 Claude Code plugin marketplace: the mandatory harness for any feature or fix
 across e5 service repos. Bundles pinned copies of `superpowers`, `ponytail`,
@@ -14,7 +14,7 @@ for the full design.
 /plugin marketplace add <git-url-of-this-repo>
 /plugin install superpowers
 /plugin install ponytail
-/plugin install e5-dev-workflow-extras
+/plugin install e5-cross-repo-plugin-extras
 /plugin install e5-platform-plugin
 ```
 

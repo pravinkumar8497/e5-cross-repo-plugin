@@ -1,5 +1,5 @@
 {
-  "name": "e5-dev-workflow",
+  "name": "e5-cross-repo-plugin",
   "owner": {
     "name": "element5"
   },
@@ -15,8 +15,8 @@
       "description": "Vendored copy of DietrichGebert/ponytail, pinned for team-wide consistency (YAGNI / minimal-diff discipline)"
     },
     {
-      "name": "e5-dev-workflow-extras",
-      "source": "./plugins/e5-dev-workflow-extras",
+      "name": "e5-cross-repo-plugin-extras",
+      "source": "./plugins/e5-cross-repo-plugin-extras",
       "description": "Cherry-picked third-party skills (currently: grilling)"
     },
     {

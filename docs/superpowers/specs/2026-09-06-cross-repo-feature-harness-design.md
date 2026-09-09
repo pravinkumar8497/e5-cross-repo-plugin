@@ -40,13 +40,13 @@ Claude Code session follows.
 
 ### Repos involved
 
-1. **`e5-dev-workflow`** (new, this repo) — a Claude Code plugin marketplace
+1. **`e5-cross-repo-plugin`** (new, this repo) — a Claude Code plugin marketplace
    bundling three plugins:
    - `superpowers` — vendored at the version currently in use, providing
      brainstorming/writing-plans/TDD/code-review skills the harness builds on.
    - `ponytail` — vendored at the version currently in use, providing the
      lazy/minimal-implementation discipline.
-   - `e5-dev-workflow` (the actual new plugin) — contains the
+   - `e5-cross-repo-plugin` (the actual new plugin) — contains the
      `cross-repo-feature` skill and a `services.json` manifest of known repos.
 2. **`e5-feature-specs`** (new, separate repo, cloned alongside the service
    repos) — holds one directory per feature/fix, each with a spec doc and a
@@ -59,7 +59,7 @@ Claude Code session follows.
 
 CLAUDE.md text can't run a guided, stateful process (asking questions,
 writing structured specs, tracking phase status) — it's static instructions.
-A skill can. Bundling `superpowers` + `ponytail` + `e5-dev-workflow` into one
+A skill can. Bundling `superpowers` + `ponytail` + `e5-cross-repo-plugin` into one
 marketplace means a teammate's only setup step is adding that one marketplace
 and installing its plugins; there is nothing left to separately configure or
 forget.
@@ -74,7 +74,7 @@ repos, is the shared equivalent of `workshop/` for feature specs specifically.
 
 ## Components
 
-### `services.json` (in the `e5-dev-workflow` plugin)
+### `services.json` (in the `e5-cross-repo-plugin` plugin)
 
 A flat manifest, maintained by hand as repos are added/removed:
 
@@ -132,18 +132,18 @@ Three phases:
 
 ## Distribution
 
-Single marketplace repo (`e5-dev-workflow`) containing:
+Single marketplace repo (`e5-cross-repo-plugin`) containing:
 
 ```
 .claude-plugin/marketplace.json
 plugins/
   superpowers/          # vendored copy, pinned version
   ponytail/              # vendored copy, pinned version
-  e5-dev-workflow-extras/
+  e5-cross-repo-plugin-extras/
     .claude-plugin/plugin.json
     skills/
       grilling/          # cherry-picked from mattpocock/skills, pinned version
-  e5-dev-workflow/
+  e5-cross-repo-plugin/
     .claude-plugin/plugin.json
     skills/
       cross-repo-feature/SKILL.md
@@ -153,7 +153,7 @@ plugins/
 Skills are cherry-picked from third-party marketplaces (not the whole
 marketplace) to avoid pulling in skills that overlap or conflict with
 superpowers (e.g. mattpocock-skills' own `tdd`/`code-review`). Each
-cherry-picked skill is copied into a small `e5-dev-workflow-extras` plugin
+cherry-picked skill is copied into a small `e5-cross-repo-plugin-extras` plugin
 owned by this repo, so its version is pinned and updates are deliberate
 (re-copy on demand), not silently pulled from the upstream marketplace.
 
@@ -163,14 +163,14 @@ repo's README:
 /plugin marketplace add <git-url-of-this-repo>
 /plugin install superpowers
 /plugin install ponytail
-/plugin install e5-dev-workflow-extras
-/plugin install e5-dev-workflow
+/plugin install e5-cross-repo-plugin-extras
+/plugin install e5-cross-repo-plugin
 ```
 
 **Open item to verify during implementation:** whether Claude Code's
 `plugin.json` supports a native "requires plugin X" dependency field. If yes,
-`e5-dev-workflow`'s plugin.json declares `superpowers`/`ponytail`/
-`e5-dev-workflow-extras` as dependencies and install pulls all four
+`e5-cross-repo-plugin`'s plugin.json declares `superpowers`/`ponytail`/
+`e5-cross-repo-plugin-extras` as dependencies and install pulls all four
 automatically. If no, the manual install block above is what ships — this
 doesn't change anything else in the design.
 
