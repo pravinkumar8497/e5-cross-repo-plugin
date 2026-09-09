@@ -15,7 +15,7 @@ for the full design.
 /plugin install superpowers
 /plugin install ponytail
 /plugin install e5-dev-workflow-extras
-/plugin install e5-dev-workflow
+/plugin install e5-platform-plugin
 ```
 
 ## Updating
@@ -25,4 +25,4 @@ reinstall the affected plugin) to pick up changes.
 
 ## Known services
 
-Edit `plugins/e5-dev-workflow/services.json` when a repo is added or removed.
+Edit `plugins/e5-platform-plugin/services.json` when a repo is added or removed.

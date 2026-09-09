@@ -1,0 +1,46 @@
+{
+  "e5-deployment-mgmt-service": {
+    "purpose": "gRPC server owning deployment/customer/subscription/scheduling data",
+    "role": "service",
+    "depends_on": [],
+    "consumed_by": ["e5-platform-ss-credential-monitor", "e5-workflow-manager-service"]
+  },
+  "e5-platform-kb": { "purpose": "" },
+  "e5-platform-ss-credential-monitor": {
+    "purpose": "Watches K8s pod events and Kafka credential-fetch/release events, forwards into e5-deployment-mgmt-service over gRPC",
+    "role": "service",
+    "depends_on": ["e5-rf-fb-worker-core", "e5-deployment-mgmt-service"],
+    "consumed_by": []
+  },
+  "e5-platform-ss-interface": { "purpose": "" },
+  "e5-rf-fb-worker-core": {
+    "purpose": "Python function-block worker SDK; publishes credential-fetch/release Kafka events consumed by e5-platform-ss-credential-monitor",
+    "role": "library",
+    "depends_on": [],
+    "consumed_by": ["e5-platform-ss-credential-monitor"]
+  },
+  "e5-workflow-manager-service": {
+    "purpose": "Java service driving pod actions/task release, calls e5-deployment-mgmt-service for deployment/app-name lookups",
+    "role": "service",
+    "depends_on": ["e5-deployment-mgmt-service"],
+    "consumed_by": []
+  },
+  "e5-platform-core": {
+    "purpose": "Workflow runtime SDK (Temporal-based) consumed by downstream workflow-author services; not a standalone deployable",
+    "role": "library",
+    "depends_on": ["e5-task-sdk-java", "e5-common-utils"],
+    "consumed_by": ["wf-scaffolding"]
+  },
+  "e5-task-sdk-java": {
+    "purpose": "akst Task/TaskTransport model + TaskProducerService routing (Kafka publish, endpoint/producer config resolution) shared by platform-core and its downstream consumers",
+    "role": "library",
+    "depends_on": [],
+    "consumed_by": ["e5-platform-core"]
+  },
+  "wf-scaffolding": {
+    "purpose": "Reference/scaffold app for authoring workflows on platform-core - primary place to smoke-test platform-core changes end to end",
+    "role": "service",
+    "depends_on": ["e5-platform-core", "e5-task-sdk-java"],
+    "consumed_by": []
+  }
+}

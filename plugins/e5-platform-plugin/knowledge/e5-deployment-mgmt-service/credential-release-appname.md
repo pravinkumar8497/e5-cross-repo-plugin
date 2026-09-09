@@ -1,4 +1,17 @@
-# e5-deployment-mgmt-service — notes
+---
+service: e5-deployment-mgmt-service
+feature: credential-release-appname
+status: active
+related_files:
+  - DeploymentStateRepositoryImpl.java (findDeploymentDetailsByResourceName)
+  - DeploymentManagementServiceImpl.java (addAssignedCredentialToStore)
+  - StringUtil.java (deriveAppNameFromPodName)
+integrations: []
+---
+
+# credential-release-appname
+
+Spec: `e5-feature-specs/2026-09-06-credential-release-appname/design.md`.
 
 ## 2026-09-06 — resourceName -> appName has no reliable existing join
 
@@ -15,8 +28,7 @@ get a per-credential app name.
 `credential_assignment_registry` already stores both `resource_name` and
 `pod_name` on the same row (set in `addAssignedCredentialToStore` /
 `updateReleaseStatusToStore`, both keyed by the `CredentialAssignmentRegistry`
-entity). This is the right row to add an `app_name` column to — see
-`e5-feature-specs/2026-09-06-credential-release-appname/design.md`.
+entity). This is the right row to add an `app_name` column to.
 
 ## 2026-09-06 — fb-worker pod naming convention
 
@@ -30,7 +42,7 @@ recover the app name from a pod name when nothing better is available.
 Treat this as a transitional fallback only (see design doc's "Known
 limitation").
 
-## 2026-09-06 — implemented: app_name resolution + release branch conventions
+## 2026-09-06 — implemented: app_name resolution
 
 Fix implemented on branch `defect/credential-release-appname` (commit
 1dd0d39): `credential_assignment_registry.app_name` column added, resolved
@@ -38,16 +50,3 @@ in `DeploymentManagementServiceImpl.addAssignedCredentialToStore` (use
 `PodCredentialAssignment.appName` if present, else
 `StringUtil.deriveAppNameFromPodName(podName)`), exposed via
 `GetDeploymentDetailsByResourceNameResponse.appName`.
-
-**Branch convention:** this repo uses `release/vX.Y.Z` branches, not
-`main`, as the actual current line of development — `main` and even
-mid-range release branches can be stale by dozens of commits. Always check
-`git branch -a | grep release` and diff against the highest version number
-before branching for new work (at time of writing, `release/v1.8.0` was
-current; `release/v1.6.10` was 2 releases behind but happened to have no
-diff in the credential-release code paths — don't assume that's always
-true).
-
-**Local build limitation:** `./gradlew test` works fine in this
-environment (no external dependency auth needed for this repo specifically).
-

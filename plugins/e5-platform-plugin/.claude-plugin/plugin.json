@@ -1,5 +1,5 @@
 {
-  "name": "e5-dev-workflow",
+  "name": "e5-platform-plugin",
   "version": "0.2.0",
   "description": "Cross-repo feature/fix harness for e5 services: shared Plan+Design, per-repo Implement+Test, per-repo Review (with fix/re-review loop), shared Validation",
   "skills": [

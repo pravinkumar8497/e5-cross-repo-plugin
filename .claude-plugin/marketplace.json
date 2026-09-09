@@ -20,8 +20,8 @@
       "description": "Cherry-picked third-party skills (currently: grilling)"
     },
     {
-      "name": "e5-dev-workflow",
-      "source": "./plugins/e5-dev-workflow",
+      "name": "e5-platform-plugin",
+      "source": "./plugins/e5-platform-plugin",
       "description": "The cross-repo feature/fix harness skill"
     }
   ]
