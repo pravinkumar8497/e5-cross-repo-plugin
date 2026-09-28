@@ -3,8 +3,8 @@ service: e5-deployment-mgmt-service
 role: service
 depends_on: []
 consumed_by: [e5-platform-ss-credential-monitor, e5-workflow-manager-service]
-features: [credential-release-appname]
-integrations: []
+features: [credential-release-appname, schedule-enable-disable-version-race, platform-version-lookup]
+integrations: [e5-deployment-mgmt-service--e5-workflow-manager-service]
 ---
 
 # e5-deployment-mgmt-service
@@ -17,6 +17,13 @@ deployment/customer/subscription/scheduling data.
 - [credential-release-appname](./credential-release-appname.md) — resolving
   `appName` on credential-assignment records instead of deriving it ambiguously
   from `resourceName`/pod name.
+- [schedule-enable-disable-version-race](./schedule-enable-disable-version-race.md) —
+  confirmed root cause of a recurring incident: enable-schedule resolves the
+  "active" deployment version by an unlocked lookup that races deployment
+  cutover, silently enabling the wrong version's trigger.
+- [platform-version-lookup](./platform-version-lookup.md) — how to resolve
+  `e5-platform-core`/FB-core version per `deployment_version_id` via the
+  generic `dependency` table; used repeatedly in incident triage.
 
 ## Environment notes (repo-wide, not feature-specific)
 

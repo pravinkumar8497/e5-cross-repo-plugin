@@ -3,7 +3,7 @@ service: e5-platform-core
 role: library
 depends_on: [e5-task-sdk-java, e5-common-utils]
 consumed_by: [wf-scaffolding]
-features: [user-initiated-action, configuration]
+features: [user-initiated-action, configuration, fb-delegation-completion-race]
 integrations: [e5-platform-core--e5-task-sdk-java, e5-platform-core--wf-scaffolding]
 ---
 
@@ -22,6 +22,10 @@ Actions (UIA).
   lifecycle bugs found this session.
 - [configuration](./configuration.md) — config field-naming / schema-binding
   gotchas in `ConfigsLoader`.
+- [fb-delegation-completion-race](./fb-delegation-completion-race.md) — the
+  `e5_token`/`DelegationCompletionReconciler` dispatch-vs-completion race
+  (fixed in `5de22d35`), plus a residual unbuffered-completion gap found
+  while verifying that fix against a stuck-workflow incident.
 
 ## Environment notes (repo-wide, not feature-specific)
 
