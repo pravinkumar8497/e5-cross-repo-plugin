@@ -4,7 +4,7 @@ role: service
 depends_on: [e5-deployment-mgmt-service]
 consumed_by: []
 features: [credential-release-appname, testing-conventions]
-integrations: []
+integrations: [e5-deployment-mgmt-service--e5-workflow-manager-service]
 ---
 
 # e5-workflow-manager-service
