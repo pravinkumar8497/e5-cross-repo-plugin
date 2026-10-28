@@ -4,7 +4,8 @@ role: service
 depends_on: [e5-deployment-mgmt-service]
 consumed_by: []
 features: [credential-release-appname, testing-conventions]
-integrations: [e5-deployment-mgmt-service--e5-workflow-manager-service]
+integrations: [e5-deployment-mgmt-service--e5-workflow-manager-service, e5-platform-ss-interface--e5-workflow-manager-service]
+platform_features: [priority-aware-credential-sharing]
 ---
 
 # e5-workflow-manager-service
@@ -21,6 +22,15 @@ Java service. Not present in the `e5-platform-kb` submodule workspace as of
 - [testing-conventions](./testing-conventions.md) — this repo's mocking
   pattern for `ProtoFactory`-based gRPC calls, and a real `.isEmpty()`/
   `.isBlank()` bug it surfaced.
+## Platform features (cross-repo — see `features/`, not duplicated here)
+
+- [priority-aware-credential-sharing](../../features/priority-aware-credential-sharing.md) —
+  this repo's piece: `ScaleAppWorkerGitHubConfigHandler`'s tenant-config
+  writer for `credentialSharingGroup.sharedCount`/`multiplier` (an
+  incomplete implementation, not yet fixed — a real pipeline test failure),
+  plus owning the actual group-scaling behavior the interface's
+  `scaleAppWorker` group mode hands off to (not yet implemented). Also spans
+  `e5-platform-core`, `e5-deployment-mgmt-service`, `e5-platform-ss-interface`.
 
 ## Environment notes (repo-wide, not feature-specific)
 

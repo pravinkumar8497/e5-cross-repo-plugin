@@ -3,7 +3,7 @@
     "purpose": "gRPC server owning deployment/customer/subscription/scheduling data",
     "role": "service",
     "depends_on": [],
-    "consumed_by": ["e5-platform-ss-credential-monitor", "e5-workflow-manager-service"]
+    "consumed_by": ["e5-platform-ss-credential-monitor", "e5-workflow-manager-service", "e5-platform-ss-interface"]
   },
   "e5-platform-kb": { "purpose": "" },
   "e5-platform-ss-credential-monitor": {
@@ -12,7 +12,12 @@
     "depends_on": ["e5-rf-fb-worker-core", "e5-deployment-mgmt-service"],
     "consumed_by": []
   },
-  "e5-platform-ss-interface": { "purpose": "" },
+  "e5-platform-ss-interface": {
+    "purpose": "Spring Boot GraphQL gateway - resolves client-facing mutations/queries by calling e5-deployment-mgmt-service over gRPC and publishing TaskTransport messages for downstream services (task-manager/AKST/workflow-manager) to consume",
+    "role": "service",
+    "depends_on": ["e5-deployment-mgmt-service", "e5-task-sdk-java"],
+    "consumed_by": []
+  },
   "e5-rf-fb-worker-core": {
     "purpose": "Python function-block worker SDK; publishes credential-fetch/release Kafka events consumed by e5-platform-ss-credential-monitor",
     "role": "library",
